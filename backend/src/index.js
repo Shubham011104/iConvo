@@ -6,6 +6,8 @@ import path from "path";
 import {clerkMiddleware} from "@clerk/express";
 import User from "./models/user.model.js";
 import { connectDB } from "./lib/db.js";
+import job from "./lib/cron.js";
+
 import dns from "node:dns/promises"; 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -37,4 +39,6 @@ if(fs.existsSync(publicDir)){
 app.listen(PORT, () => {
     connectDB()
     console.log("Server is up and running on PORT:", PORT)
+
+    if (process.env.NODE_ENV === "production") job.start();
 });
