@@ -12,9 +12,10 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 
 import dns from "node:dns/promises"; 
+import { app, server } from "./lib/socket.js";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
-const app = express();
+
 
 const PORT = process.env.PORT;
 const FRONTEND_URL = process.env.FRONTEND_URL;
@@ -46,7 +47,7 @@ if(fs.existsSync(publicDir)){
     });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectDB()
     console.log("Server is up and running on PORT:", PORT)
 
